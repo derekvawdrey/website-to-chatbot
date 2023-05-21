@@ -21,16 +21,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%2e#xvnz3t=iwx3zd#p=r*-(*_pa8rnwp3sg@3@+rh#7skxt)v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Environment variables
+SECRET_KEY = os.environ.get('SECRET_KEY')
+OPENAI_KEY = os.environ.get('OPENAI_KEY')
+OPENAI_EMBEDDING_MODEL = os.environ.get('OPENAI_EMBEDDING_MODEL')
+OPENAI_CHAT_MODEL = os.environ.get('OPENAI_CHAT_MODEL')
+PINECONE_INDEX = os.environ.get('PINECONE_INDEX')
+PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
+PINECONE_ENVIRONMENT = os.environ.get('PINECONE_ENVIRONMENT')
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
