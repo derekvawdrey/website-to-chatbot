@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 # Environment variables
 SECRET_KEY = os.environ.get('SECRET_KEY')
-OPENAI_KEY = os.environ.get('OPENAI_KEY')
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 OPENAI_EMBEDDING_MODEL = os.environ.get('OPENAI_EMBEDDING_MODEL')
 OPENAI_CHAT_MODEL = os.environ.get('OPENAI_CHAT_MODEL')
 PINECONE_INDEX = os.environ.get('PINECONE_INDEX')

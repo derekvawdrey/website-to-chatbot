@@ -7,10 +7,10 @@ This project was designed for the McKay School of Education. Developed by Derek 
 # How to use
 1. Download the repository
 2. Install requirements.txt (python3 -m pip install -r ./requirements.txt)
-3. Create a .env file in the settings folder
+3. Create a .env file in the webtochatbot folder
 ```
     SECRET_KEY=anything_good_here
-    OPENAI_KEY=xxx
+    OPENAI_API_KEY=xxx
     OPENAI_EMBEDDING_MODEL=text-embedding-ada-002
     OPENAI_CHAT_MODEL=gpt-3.5-turbo
     PINECONE_INDEX=xxx
