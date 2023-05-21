@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,17 +25,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+load_dotenv()
 ALLOWED_HOSTS = []
 
 # Environment variables
-SECRET_KEY = os.environ.get('SECRET_KEY')
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-OPENAI_EMBEDDING_MODEL = os.environ.get('OPENAI_EMBEDDING_MODEL')
-OPENAI_CHAT_MODEL = os.environ.get('OPENAI_CHAT_MODEL')
-PINECONE_INDEX = os.environ.get('PINECONE_INDEX')
-PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
-PINECONE_ENVIRONMENT = os.environ.get('PINECONE_ENVIRONMENT')
+SECRET_KEY = os.getenv('SECRET_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_EMBEDDING_MODEL = os.getenv('OPENAI_EMBEDDING_MODEL')
+OPENAI_CHAT_MODEL = os.getenv('OPENAI_CHAT_MODEL')
+PINECONE_INDEX = os.getenv('PINECONE_INDEX')
+PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
+PINECONE_ENVIRONMENT = os.getenv('PINECONE_ENVIRONMENT')
 
 # Application definition
 INSTALLED_APPS = [
