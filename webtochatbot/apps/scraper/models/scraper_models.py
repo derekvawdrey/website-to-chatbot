@@ -26,7 +26,11 @@ class ScrapedPage(models.Model):
         return self.title
 
 class EmbeddedContent(models.Model):
+    uuid = models.UUIDField(
+        default = uuid.uuid4
+    )
     related_scraped_page = models.ForeignKey(ScrapedPage, on_delete=models.CASCADE)
+    content_to_embed = models.TextField(default="", null=False, blank=False)
     embedding = models.TextField(default="", blank=False, null=False)
     is_embedded = models.BooleanField(default=False)
     is_in_vector_database = models.BooleanField(default=False)

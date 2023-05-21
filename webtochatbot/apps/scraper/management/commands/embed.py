@@ -45,11 +45,11 @@ class Command(BaseCommand):
             # Split text into chunks that can now be embedded
             split_text = (self.split_into_many(page.content_to_embed, max_tokens))
             for chunk in split_text:
-                print(chunk)
                 embedding = openai.Embedding.create(input=chunk, model=settings.OPENAI_EMBEDDING_MODEL)['data'][0]['embedding']
                 EmbeddedContent.objects.create(
                     related_scraped_page=page,
                     embedding = embedding,
+                    content_to_embed=chunk,
                     is_embedded=True,
                 )
                 print("Embedded chunk successfully")

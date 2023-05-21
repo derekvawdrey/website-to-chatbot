@@ -26,6 +26,6 @@ This project was designed for the McKay School of Education. Developed by Derek 
 
 python manage.py scrape --base-url https://education.byu.edu --html-elements-to-gather div.dept-name,section#content
 ### Convert database entries into embeddings
-python manage.py scrape --base-url https://education.byu.edu --html-elements-to-gather div.dept-name,section#content
+python manage.py embed --base-url https://education.byu.edu --max-tokens 350
 ### Upload embeddings to Vector Database
-python manage.py scrape --base-url https://education.byu.edu --html-elements-to-gather div.dept-name,section#content
+python manage.py upload --base-url https://education.byu.edu
