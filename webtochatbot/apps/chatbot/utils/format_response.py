@@ -30,11 +30,15 @@ def generateGPTPrompt(pinecone_responses, user_messages, chatbot_messages,user_i
 
     # Remove everything but the most recent three elements from user_messages
     while len(user_messages) > 3:
-        user_messages.pop(0)  # Remove the first element
+        user_messages = list(user_messages.reverse()[:3])  # Remove the first element
 
     # Remove everything but the most recent three elements from chatbot_messages
     while len(chatbot_messages) > 3:
-        chatbot_messages.pop(0)  # Remove the first element
+        chatbot_messages = list(chatbot_messages.reverse()[:3])
+
+    chatbot_count = len(chatbot_messages)
+    user_count = len(user_messages)
+    max_count = max(chatbot_count, user_count)
 
     # Add previously referenced URLs
     already_added_urls = ""
