@@ -8,7 +8,7 @@ This project was designed for the McKay School of Education at BYU. Developed by
 1. Download the repository
 2. Install requirements.txt (python3 -m pip install -r ./requirements.txt)
 3. Migrate the database (python3 manage.py migrate)
-4. Create a pinecone.io free database (and OpenAI API account)
+4. Create a pinecone.io free database (and OpenAI API account not free)
 5. Create a .env file in the webtochatbot folder
 ```
     SECRET_KEY=anything_good_here
