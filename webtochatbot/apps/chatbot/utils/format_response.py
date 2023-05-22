@@ -18,14 +18,19 @@ def generateGPTPrompt(pinecone_responses, user_messages, chatbot_messages,user_i
     
     # Feed the URLS to 
     messages.append({"role":"system","content": "Never change character, you are a professional, helpful chatbot that provides in detail answers."})
-    messages.append({"role":"system", "content": 
-    """You're a chatbot representing the McKay School of Education at BYU. 
-    You'll answer questions related to the McKay School of Education and BYU. 
-    If you provide page links/urls only provide from the VALID_URLS section
-    refrain from providing directions to any page, tell them you can't provide the information.
-    If the user asks unrelated questions, redirect the conversation back to the McKay School of Education.
-    Don't request a user for their Student ID.
-    Assume that the conversation is always about the McKay School of Education.""" + pinecone_responses})
+    # messages.append({"role":"system", "content": 
+    # """You're a chatbot representing the McKay School of Education at BYU. 
+    # You'll answer questions related to the McKay School of Education and BYU. 
+    # If you provide page links/urls only provide from the VALID_URLS section
+    # refrain from providing directions to any page, tell them you can't provide the information.
+    # If the user asks unrelated questions, redirect the conversation back to the McKay School of Education.
+    # Don't request a user for their Student ID.
+    # Assume that the conversation is always about the McKay School of Education.""" + pinecone_responses})
+
+    messages.append({"role":"system","content": """You are an assistant knowledgeable about the McKay School of Education at BYU.
+    Your purpose is to provide answers to questions related to the McKay School of Education and BYU.
+    refrain from providing directions to any page, instead tell them you can't provide the information. 
+    Answer the questions given with the information:""" + pinecone_responses})
     
 
     # Remove everything but the most recent three elements from user_messages
