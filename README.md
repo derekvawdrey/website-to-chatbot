@@ -25,8 +25,14 @@ This project was designed for the McKay School of Education at BYU. Developed by
 # Commands
 ### Convert website into database entries
 
-python manage.py scrape --base-url https://education.byu.edu --html-elements-to-gather div.dept-name,section#content
+python manage.py scrape --base-url https://education.byu.edu --html-elements-to-gather div.dept-name,section#content --html_elements_to_ignore span.visually-hidden
+
+--base-url (required): The base where you would like the scrapper to start.
+--html-elements-to-gather (required): Which html elements should the scraper pull data from? seperated by commas
+--html_elements_to_ignore (optional): Which html elements should be ignored?
 ### Convert database entries into embeddings
 python manage.py embed --base-url https://education.byu.edu --max-tokens 350
 ### Upload embeddings to Vector Database
+This will delete your pinecone index vectors! Do not run if you don't want your pinecone index vectors deleted.
+
 python manage.py upload --base-url https://education.byu.edu

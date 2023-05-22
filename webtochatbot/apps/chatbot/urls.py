@@ -15,10 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from webtochatbot.apps.chatbot.urls import urlpatterns as chatbot_urls
+from django.urls import path
+import webtochatbot.apps.chatbot.views.chatbot_web as chatbot_web_views
+import webtochatbot.apps.chatbot.views.api_views as chatbot_api_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include(chatbot_urls))
+    path("api/send_user_input", chatbot_api_views.userInput, name="send_user_input"),
+    path("", chatbot_web_views.home, name="home")
 ]

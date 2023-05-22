@@ -34,6 +34,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--base-url', type=str)
         parser.add_argument('--html-elements-to-gather', type=str)
+        parser.add_argument('--html-elements-to-ignore', type=str)
     
     def handle(self, *args, **options):
         # Check if base url is provided
@@ -41,7 +42,7 @@ class Command(BaseCommand):
             raise CommandError('Please provide base url and body content identifier')
 
         if self.deleteAllBaseUrls(options['base_url']):
-            self.startScrape(options['base_url'], options['html_elements_to_gather'])
+            self.startScrape(options['base_url'], options['html_elements_to_gather'], options['html_elements_to_ignore'])
             
         pass
 
@@ -62,14 +63,14 @@ class Command(BaseCommand):
         return True
     
     # Collect all the urls from the base url and start scraping them
-    def startScrape(self, base_url, html_elements_to_gather):
+    def startScrape(self, base_url, html_elements_to_gather, html_elements_to_ignore):
         print("Starting to scrape")
-        self.scrape(base_url, html_elements_to_gather)
+        self.scrape(base_url, html_elements_to_gather,html_elements_to_ignore)
         self.finishScrape(base_url,html_elements_to_gather)
         print("Finished scraping")
         pass
 
-    def scrape(self, url, html_elements_to_gather):
+    def scrape(self, url, html_elements_to_gather, html_elements_to_ignore):
         # Parse the URL and get the domain
         local_domain = urlparse(url).netloc
 
@@ -109,6 +110,10 @@ class Command(BaseCommand):
             html_text = response.text
             soup = BeautifulSoup(html_text, "html.parser")
             text = ""
+
+            if html_elements_to_ignore is not None:
+                for s in soup.select(html_elements_to_ignore):
+                    s.extract()
 
             # Find text to embed 
             contents = soup.select(html_elements_to_gather)

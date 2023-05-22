@@ -1,0 +1,29 @@
+.chatbot .chat-dialog{
+    height: 280px;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    overflow-y: scroll;
+}
+
+.chatbot .chat-dialog p {
+    background: #17275B;
+    color: #fff;
+    border-radius: 9px;
+    padding: 8px 10px;
+    display: inline-block;
+    max-width: calc(100% - 20px);
+    margin-top: 15px;
+    position: relative;
+    margin-bottom: 10px;
+    clear: both;
+}
+
+.chatbot .chat-dialog p::before{
+    content: attr(data-time);
+    color: #cccccc;
+    left: 4px;
+    font-size: 12px;
+    top: -15px;
+    position: absolute;
+}

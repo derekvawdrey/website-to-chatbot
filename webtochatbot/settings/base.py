@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webtochatbot.apps.scraper.apps.ScraperConfig'
+    'rest_framework',
+    'webtochatbot.apps.scraper.apps.ScraperConfig',
+    'webtochatbot.apps.chatbot.apps.ChatbotConfig'
 ]
 
 MIDDLEWARE = [
