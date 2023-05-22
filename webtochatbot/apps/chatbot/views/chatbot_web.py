@@ -5,5 +5,4 @@ import pinecone, openai
 
 # Create your views here.
 def home(request):
-    # return render(request, 'home.html')
-    return HttpResponse('Chatbot')
+    return render(request, 'chatbot/test.html')

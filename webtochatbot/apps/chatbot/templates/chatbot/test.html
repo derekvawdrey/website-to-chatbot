@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chatbot System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+.bot-message ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.bot-message ul li {
+  margin-bottom: 5px;
+}
+
+.bot-message a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.bot-message a:hover {
+  text-decoration: underline;
+}
+
+    .chat-container {
+      margin-bottom: 20px;
+    }
+
+    .user-message {
+      background-color: #5fba7d;
+      color: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .bot-message {
+      background-color: #d9d9d9;
+      color: #333;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .input-container {
+      display: flex;
+    }
+
+    .user-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .submit-btn {
+      margin-left: 10px;
+      padding: 10px 20px;
+      background-color: #5fba7d;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .loading {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .loading .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+     $(document).ready(function() {
+       function showLoading() {
+         var loadingElement = $("<div class='loading'>");
+         var spinnerElement = $("<div class='spinner'>");
+         loadingElement.append(spinnerElement);
+         $(".chat-container").append(loadingElement);
+       }
+ 
+       function hideLoading() {
+         $(".chat-container .loading").remove();
+       }
+ 
+       function fetchData(userInput) {
+         showLoading();
+ 
+         $.ajax({
+            url: "/api/send_user_input",
+          method: "GET",
+          data: { user_input: userInput, session_uuid : "session uuid is not needed right now" },
+           success: function(response) {
+             hideLoading();
+ 
+             var message = response.message;
+             var urls = response.urls;
+             var gptMessages = response.given_to_gpt;
+ 
+             // Append the bot message to the chat container
+             var botMessage = $("<div class='bot-message'>").text(message);
+                botMessage.append("<hr>")
+            
+            // Check if there are URLs to append
+            let urls_split = urls.split("\n")
+            if (urls_split.length > 0) {
+              var urlList = $("<ul>");
+              // Append each URL as a list item
+              $.each(urls_split, function(index, url) {
+                var listItem = $("<li>").append("<a href='" + url + "'>" + url + "</a>")
+                urlList.append(listItem);
+              });
+              // Append the URL list to the bot message
+              botMessage.append(urlList);
+            }
+
+            $(".chat-container").append(botMessage);
+ 
+             // Append the GPT messages to the page
+             $.each(gptMessages, function(index, gptMessage) {
+               var listItem = $("<li>").text(gptMessage);
+               $("#gpt-messages").append(listItem);
+             });
+           },
+           error: function() {
+             hideLoading();
+             console.log("Error occurred while fetching JSON data.");
+           }
+         });
+       }
+ 
+       $("#userInputForm").submit(function(event) {
+         event.preventDefault();
+         var userInput = $("#userInput").val();
+ 
+         // Append the user message to the chat container
+         var userMessage = $("<div class='user-message'>").text(userInput);
+         $(".chat-container").append(userMessage);
+ 
+         fetchData(userInput);
+ 
+         $(this).trigger("reset");
+       });
+     });
+   </script>
+ </head>
+ <body>
+   <div class="container">
+     <h1>Chatbot System</h1>
+ 
+     <div class="chat-container"></div>
+ 
+     <form id="userInputForm" class="input-container">
+       <input type="text" id="userInput" class="user-input" placeholder="Type your message...">
+       <button type="submit" class="submit-btn">Send</button>
+     </form>
+   </div>
+ </body>
+ </html>

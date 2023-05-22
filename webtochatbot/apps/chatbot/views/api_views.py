@@ -27,7 +27,8 @@ def userInput(request):
         return Response({'error': 'session_uuid is empty'}, status=status.HTTP_400_BAD_REQUEST)
     
     # Fetch session
-    current_session = Session.objects.get_or_create(user=user)
+    # TODO: Make current session appear onto the page
+    current_session = Session.objects.get_or_create(user=user)[0]
 
     user_messages = UserMessage.objects.filter(session=current_session)
     chatbot_messages = ChatbotMessage.objects.filter(session=current_session)
@@ -51,10 +52,10 @@ def userInput(request):
     # get relevant URLs
     urls = ""
     for n in response["matches"]:
-        urls += n["metadata"]["url"] + "\n"
+        urls += (n["metadata"]["url"]) + "\n"
 
     pinecone_responses = formatPineconeResponse(response)
-    gpt_messages = generateGPTPrompt(pinecone_responses, user_messages, chatbot_messages)
+    gpt_messages = generateGPTPrompt(pinecone_responses, user_messages, chatbot_messages, user_input)
 
     response_from_gpt = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -64,6 +65,6 @@ def userInput(request):
     )
 
     assistant_response_without_urls = response_from_gpt["choices"][0]["message"]["content"]
-    UserMessage.objects.create(session=current_session, content=user_input)
-    ChatbotMessage.objects.create(session=current_session, content=assistant_response_without_urls)
-    return Response({'message': assistant_response_without_urls, 'urls': urls}, status=status.HTTP_200_OK)
+    UserMessage.objects.create(session=current_session, text=user_input)
+    ChatbotMessage.objects.create(session=current_session, text=assistant_response_without_urls, embedding_information=pinecone_responses, referenced_urls = urls)
+    return Response({'message': assistant_response_without_urls, 'urls': urls, "given_to_gpt": gpt_messages}, status=status.HTTP_200_OK)

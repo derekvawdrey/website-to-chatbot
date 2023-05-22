@@ -10,6 +10,8 @@ class Session(models.Model):
 
 class ChatbotMessage(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    embedding_information = models.TextField(default="")
+    referenced_urls = models.TextField(default="")
     text = models.CharField(max_length=500)
     timestamp = models.DateTimeField(auto_now_add=True)
 
