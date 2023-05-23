@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 import pinecone, openai
 from webtochatbot.apps.chatbot.models import Session, ChatbotMessage, UserMessage
-from webtochatbot.apps.chatbot.utils.format_response import formatPineconeResponse, generateGPTPrompt
+from webtochatbot.apps.chatbot.utils.format_response import formatPineconeResponse, generateGPTPrompt, replaceAcronymsWithNames
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -38,6 +38,17 @@ def userInput(request):
     pinecone_environment = settings.PINECONE_ENVIRONMENT
     pinecone.init(api_key=pinecone_api_key, environment=pinecone_environment)
     openai.api_key = settings.OPENAI_API_KEY
+    program_map = {
+            "comd": "Communication disorders",
+            "eled": "Elementary Education",
+            "edlf": "Educational Leadership and Foundations (EdLF)",
+            "cpse": "Counseling Psychology and Special Education (CPSE)",
+            "ted": "Teacher Education",
+            "eime": "Educational Inquiry, Measurement and Evaluation PhD",
+            "cites": "Center for the Improvement of Teacher Education & Schooling"
+        }
+    # replace student input acyonyms with the corresponding map
+    user_input = replaceAcronymsWithNames(user_input, program_map)
     embed_query = openai.Embedding.create(
         input=user_input,
         engine=settings.OPENAI_EMBEDDING_MODEL
