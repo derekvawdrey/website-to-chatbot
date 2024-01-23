@@ -14,7 +14,7 @@ import uuid
 
 @api_view(["GET"])
 def userInput(request):
-    user = request.user
+    user = request.user.id
     # Current session
     session_uuid = request.query_params.get('session_uuid', '')
     # Check length of user input
